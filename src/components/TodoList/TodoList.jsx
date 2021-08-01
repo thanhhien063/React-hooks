@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './TodoList.scss';
 
 TodoList.propTypes = {
     todos: PropTypes.array.isRequired,
