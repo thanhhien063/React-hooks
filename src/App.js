@@ -2,16 +2,41 @@ import logo from './logo.svg';
 import './App.css';
 import Form from './components/form-register/form-register';
 import ColorBox from './components/ColorBox/ColorBox';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TodoList from './components/TodoList/TodoList';
 import TodoForm from './components/TodoForm/TodoForm';
+import PostList from './components/PostList';
 
 function App() {
   const [todoList, setTodoList] = useState([
     { id: 1, title: 'I love Easy Frontend!' },
     { id: 2, title: 'We love Easy Frontend!' },
-    { id: 3, title: 'They love Easy Frontend!' },
+    { id: 3, title: 'They love Easy Frontend!'},
   ]);
+
+  const [postList, setPostList]= useState([]);
+  useEffect(() => {
+    async function fetchPostList() {
+      try {
+      const requestUrl = 'http://js-post-api.herokuapp.com/api/posts?_limit=10&_page=1';
+      const reponse = await fetch(requestUrl);
+      const reponseJSON = await reponse.json();
+      console.log({reponseJSON});
+
+      const {data} = reponseJSON;
+      setPostList(data);
+      } catch (error) {
+        console.log('Failed to fetch post list: ', error.message);
+      }
+    }
+    console.log('POST list effect');
+    fetchPostList();
+  }, []);
+
+  useEffect(() => {
+    console.log("TODO list effect");
+  });
+
   function handleTodoClick(todo) {
     console.log(todo);
     const index = todoList.findIndex(x => x.id == todo.id);
@@ -33,11 +58,12 @@ function App() {
   }
   return (
     <div className="App">
-      <h1>React hooks - TodoList</h1>
-      <Form></Form>
+      <h1>React hooks - PostList</h1>
+      {/* <Form></Form>
       <ColorBox></ColorBox>
       <TodoForm onSubmit={handleTodoFormSubmit}></TodoForm>
-      <TodoList todos={todoList} onTodoClick={handleTodoClick}></TodoList>
+      <TodoList todos={todoList} onTodoClick={handleTodoClick}></TodoList> */}
+      <PostList posts={postList}></PostList>
     </div>
   );
 }
