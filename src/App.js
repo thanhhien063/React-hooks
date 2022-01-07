@@ -9,6 +9,7 @@ import TodoForm from './components/TodoForm/TodoForm';
 import PostList from './components/PostList';
 import Pagination from './components/Pagination';
 import PostFiltersForm from './components/PostFiltersForm';
+import Clock from './components/Clock';
 
 function App() {
   const [todoList, setTodoList] = useState([
@@ -62,15 +63,6 @@ function App() {
     });
   }
 
-  function handleFiltersChange(newFilters){
-    console.log('New filters: ', newFilters);
-    setFilters({
-      ...filters,
-      _page: 1,
-      title_like: newFilters.searchTerm,
-    })
-  }
-
   function handleTodoClick(todo) {
     console.log(todo);
     const index = todoList.findIndex(x => x.id == todo.id);
@@ -92,19 +84,34 @@ function App() {
     setTodoList(newTodoList);
   }
 
+  function handleFiltersChange(newFilters){
+    console.log('New filters: ', newFilters);
+    setFilters({
+      ...filters,
+      _page: 1,
+      title_like: newFilters.searchTerm,
+    })
+  }
+
+  const [showClock, setShowClock] = useState(true);
+
+
   return (
     <div className="App">
-      <h1>React hooks - PostList</h1>
+      <h1>React hooks - Clock</h1>
+      {showClock &&  <Clock/>}
+      <button onClick={()=> setShowClock(false)}>Hide clock</button>
       {/* <Form></Form>
       <ColorBox></ColorBox>
       <TodoForm onSubmit={handleTodoFormSubmit}></TodoForm>
       <TodoList todos={todoList} onTodoClick={handleTodoClick}></TodoList> */}
-      <PostFiltersForm onSubmit={handleFiltersChange}></PostFiltersForm>
+      {/* <PostFiltersForm onSubmit={handleFiltersChange}></PostFiltersForm>
       <PostList posts={postList}></PostList>
       <Pagination 
         pagination={pagination}
         onPageChange={handlePageChange}>
-        </Pagination>
+        </Pagination> */}
+        
     </div>
   );
 }
